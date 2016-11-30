@@ -114,6 +114,14 @@ describe("Gilded Rose", function() {
       expect(items[0].quality).toEqual(0);
     });
 
+    describe("when quality is 50", function() {
+      it("quality can't be more than 50", function() {
+        items = [ new Item('Backstage passes to a TAFKAL80ETC concert', 4, 50) ];
+        updateQuality();
+        expect(items[0].quality).toEqual(50);
+      });
+    });
+
   });
 
 
