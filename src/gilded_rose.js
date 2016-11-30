@@ -4,68 +4,97 @@ function Item(name, sellIn, quality) {
   this.quality = quality;
 }
 
-var items = []
+var items = [];
 
 function updateQuality() {
   for (var i = 0; i < items.length; i++) {
-    if (itemIsSulfuras(items[i])) {
-      return
-    }
-    else if (itemIsAgedBrie(items[i])) {
-      if (items[i].quality < 50) {
-        items[i].quality += 1;
+    switch (items[i].name) {
+      case 'Sulfuras, Hand of Ragnaros':
+        break;
+      case 'Aged Brie':
+        brieLogic(items[i]);
+        break;
+      case 'Backstage passes to a TAFKAL80ETC concert':
+        backstagePassLogic(items[i]);
+        break;
+      case 'Conjured':
+        conjuredLogic(items[i]);
+        break;
+      default:
+        regularItemLogic(items[i]);
       }
-      items[i].sellIn -= 1;
-      if (items[i].sellIn < 0) {
-        if (items[i].quality < 50) {
-          items[i].quality += 1
-        }
-      }
-    }
-    else if (itemIsBackstagePass(items[i])) {
-      if (items[i].quality < 50) {
-        items[i].quality += 1
-        if (items[i].sellIn < 11) {
-          if (items[i].quality < 50) {
-            items[i].quality += 1
-          }
-        }
-        if (items[i].sellIn < 6) {
-          if (items[i].quality < 50) {
-            items[i].quality += 1
-          }
-        }
-      }
-      items[i].sellIn -= 1;
-      if (items[i].sellIn < 0) {
-        items[i].quality -= items[i].quality
-      }
-    }
-    else {
-      if (items[i].quality > 0) {
-          items[i].quality -= 1
-      }
-      items[i].sellIn -= 1;
-      if (items[i].sellIn < 0) {
-        if (items[i].quality > 0) {
-          items[i].quality -= 1
-        }
-        else {
-          items[i].quality -= items[i].quality
-        }
-      }
-    }
   }
 }
 
-function itemIsSulfuras(item) {
-  return item.name === 'Sulfuras, Hand of Ragnaros';
+function brieLogic(item) {
+  increaseQuality(item);
+  decreaseSellInDays(item);
+  if (outOfDate(item)) {
+    increaseQuality(item);
+  }
 }
 
-function itemIsAgedBrie(item) {
-  return item.name === 'Aged Brie';
+function backstagePassLogic(item) {
+  increaseQuality(item);
+  backstagePassIncreaseQuality(item);
+  decreaseSellInDays(item);
+  if (outOfDate(item)) {
+    return;
+  }
 }
 
-function itemIsBackstagePass(item) {
-  return item.name === 'Backstage passes to a TAFKAL80ETC concert';
+function regularItemLogic(item) {
+  decreaseQualityBy(1, item);
+  decreaseSellInDays(item);
+  if (outOfDate(item)) {
+    decreaseQualityBy(1, item);
+  }
+  else {
+      return;
+  }
+}
+
+function conjuredLogic(item) {
+  decreaseQualityBy(2, item);
+  decreaseSellInDays(item);
+  if (outOfDate(item)) {
+    decreaseQualityBy(2, item);
+  }
+  else {
+    return;
+  }
+}
+
+// HELPERS
+
+function backstagePassIncreaseQuality(item) {
+  if (item.sellIn < 11) {
+    increaseQuality(item);
+  }
+  if (item.sellIn < 6) {
+    increaseQuality(item);
+  }
+  if (item.sellIn === 0) {
+      item.quality = 0;
+  }
+}
+
+function outOfDate(item) {
+  return item.sellIn < 0;
+}
+
+function decreaseQualityBy(amount, item) {
+  if (item.quality > 0) {
+    item.quality -= amount;
+  }
+}
+
+function increaseQuality(item) {
+  if (item.quality < 50) {
+    item.quality += 1;
+  }
+}
+
+function decreaseSellInDays(item) {
+  item.sellIn -= 1;
 }

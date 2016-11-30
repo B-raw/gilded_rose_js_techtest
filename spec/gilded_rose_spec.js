@@ -124,7 +124,38 @@ describe("Gilded Rose", function() {
 
   });
 
+  describe("Conjured items", function() {
+    beforeEach(function() {
+      items = [ new Item('Conjured', 10, 20) ];
+    });
 
+    it("should decrease quality by 2 per day", function() {
+      updateQuality();
+      expect(items[0].quality).toEqual(18);
+    });
+
+    it("should decrease sellIn by 1 per day", function() {
+      updateQuality();
+      expect(items[0].sellIn).toEqual(9);
+    });
+
+    describe("when sell by date passed", function() {
+      it("should decrease quality by 4 per day", function() {
+        items = [ new Item('Conjured', 0, 20) ];
+        updateQuality();
+        expect(items[0].quality).toEqual(16);
+      });
+    });
+
+    describe("when quality is 0", function() {
+      it("quality can't be less than 0", function() {
+        items = [ new Item('Conjured', -4, 0) ];
+        updateQuality();
+        updateQuality();
+        expect(items[0].quality).toEqual(0);
+      });
+    });
+  });
 
 
 
