@@ -1,6 +1,6 @@
 describe("Gilded Rose", function() {
 
-  describe("regular items", function() {
+  describe("Regular Items", function() {
     beforeEach(function() {
       items = [ new Item('+5 Dexterity Vest', 10, 20) ];
     });
@@ -15,7 +15,7 @@ describe("Gilded Rose", function() {
       expect(items[0].sellIn).toEqual(9);
     });
 
-    describe("when sell by date passed", function() {
+    // describe("when sell by date has passed", function() {
       it("should decrease quality by 2 per day", function() {
         items = [ new Item('+5 Dexterity Vest', 0, 20) ];
         updateQuality();
@@ -26,6 +26,8 @@ describe("Gilded Rose", function() {
     describe("when quality is 0", function() {
       it("quality can't be less than 0", function() {
         items = [ new Item('+5 Dexterity Vest', -4, 0) ];
+        updateQuality();
+        updateQuality();
         updateQuality();
         updateQuality();
         expect(items[0].quality).toEqual(0);
@@ -59,6 +61,8 @@ describe("Gilded Rose", function() {
     describe("when quality is 50", function() {
       it("quality can't be more than 50", function() {
         items = [ new Item('Aged Brie', -2, 50) ];
+        updateQuality();
+        updateQuality();
         updateQuality();
         expect(items[0].quality).toEqual(50);
       });
@@ -114,6 +118,15 @@ describe("Gilded Rose", function() {
       expect(items[0].quality).toEqual(0);
     });
 
+    it("quality remains at 0 post concert", function() {
+      items = [ new Item('Backstage passes to a TAFKAL80ETC concert', 0, 20) ];
+      updateQuality();
+      updateQuality();
+      updateQuality();
+      updateQuality();
+      expect(items[0].quality).toEqual(0);
+    });
+
     describe("when quality is 50", function() {
       it("quality can't be more than 50", function() {
         items = [ new Item('Backstage passes to a TAFKAL80ETC concert', 4, 50) ];
@@ -126,7 +139,7 @@ describe("Gilded Rose", function() {
 
   describe("Conjured items", function() {
     beforeEach(function() {
-      items = [ new Item('Conjured', 10, 20) ];
+      items = [ new Item('Conjured Mana Cake', 10, 20) ];
     });
 
     it("should decrease quality by 2 per day", function() {
@@ -141,7 +154,7 @@ describe("Gilded Rose", function() {
 
     describe("when sell by date passed", function() {
       it("should decrease quality by 4 per day", function() {
-        items = [ new Item('Conjured', 0, 20) ];
+        items = [ new Item('Conjured Mana Cake', 0, 20) ];
         updateQuality();
         expect(items[0].quality).toEqual(16);
       });
@@ -149,18 +162,11 @@ describe("Gilded Rose", function() {
 
     describe("when quality is 0", function() {
       it("quality can't be less than 0", function() {
-        items = [ new Item('Conjured', -4, 0) ];
+        items = [ new Item('CConjured Mana Cake', -4, 0) ];
+        updateQuality();
         updateQuality();
         updateQuality();
         expect(items[0].quality).toEqual(0);
       });
     });
-  });
-
-
-
-
-
-
-
 });

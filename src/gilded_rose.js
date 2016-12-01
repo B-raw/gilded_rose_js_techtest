@@ -17,7 +17,7 @@ function updateQuality() {
       case 'Backstage passes to a TAFKAL80ETC concert':
         backstagePassLogic(items[i]);
         break;
-      case 'Conjured':
+      case 'Conjured Mana Cake':
         conjuredLogic(items[i]);
         break;
       default:
@@ -39,7 +39,7 @@ function backstagePassLogic(item) {
   backstagePassIncreaseQuality(item);
   decreaseSellInDays(item);
   if (outOfDate(item)) {
-    return;
+    item.quality = 0;
   }
 }
 
@@ -49,9 +49,6 @@ function regularItemLogic(item) {
   if (outOfDate(item)) {
     decreaseQualityBy(1, item);
   }
-  else {
-      return;
-  }
 }
 
 function conjuredLogic(item) {
@@ -59,9 +56,6 @@ function conjuredLogic(item) {
   decreaseSellInDays(item);
   if (outOfDate(item)) {
     decreaseQualityBy(2, item);
-  }
-  else {
-    return;
   }
 }
 

@@ -8,7 +8,7 @@
 <script type="text/javascript" src="src/gilded_rose.js"></script>
 
 <script type="text/javascript">
-  $(updateQualityady(function() {
+   $( document ).ready(function() {
 
     $('body').append('<p>OMGHAI!</p>');
 
@@ -23,7 +23,7 @@
     // this conjured item does not work properly yet
     items.push(new Item('Conjured Mana Cake', 3, 6));
 
-    var days = 2;
+    var days = 10;
 
     for (var i = 0; i < days; i++) {
       showHeaderFor(i);
